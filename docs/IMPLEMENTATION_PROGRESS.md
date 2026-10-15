@@ -43,18 +43,20 @@
 
 ## 2. Test Verification Summary
 
-- **Backend Pytest/Django:** 8 tests passed (100% green).
+- **Backend Pytest/Django:** 8 tests passed (100% green, including `X-Request-ID` telemetry).
 - **Backend Flake8 Lint:** 0 warnings, 0 errors.
 - **Backend OpenAPI Validation:** Validated cleanly via `manage.py spectacular --validate`.
 - **Frontend Typecheck:** `tsc --noEmit` passed with 0 errors.
-- **Frontend Vitest:** 3 unit tests passed (100% green).
+- **Frontend Vitest:** 5 test files, 14 unit tests passed (100% green).
 - **Frontend Vite Build:** Production bundle built successfully (`dist/` generated).
 
 ---
 
 ## 3. Git Commit History on `origin/main`
 
-1. `chore(init): repository baseline, architecture blueprint and docs`
-2. `feat(infra): add docker-compose, environment template, and github actions ci`
-3. `feat(backend): modular monolith django drf foundation with catalog, auth, and health checks`
-4. `feat(frontend): react vite typescript strict foundation with design system and 4 educational games`
+1. `60de360` — `chore(init): repository baseline, architecture blueprint and docs`
+2. `d6ef296` — `feat(infra): add docker-compose, environment template, and github actions ci`
+3. `3bb6e26` — `feat(backend): modular monolith django drf foundation with catalog, auth, and health checks`
+4. `43b1e01` — `feat(frontend): react vite typescript strict foundation with design system and 4 educational games`
+5. `200255c` — `docs: update implementation status and progress ledger`
+6. `170ac33` — `test: add comprehensive frontend game test suite and backend correlation telemetry`
