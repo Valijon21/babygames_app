@@ -64,3 +64,62 @@ class Game(TimeStampedModel):
 
     def __str__(self):
         return f"{self.title} ({self.get_status_display()})"
+
+    def submit_for_review(self, user=None):
+        """BJ-101: Transition from draft to review."""
+        if self.status != 'draft':
+            raise ValueError(f"Faqat 'draft' holatidagi o‘yin tekshiruvga yuborilishi mumkin. Hozirgi: {self.status}")
+        self.status = 'review'
+        self.save()
+        self._record_audit(user, 'status_change', {"from": "draft", "to": "review"})
+
+    def publish(self, user=None):
+        """BJ-101: Transition from review (or draft) to published with cache invalidation."""
+        from django.utils import timezone
+        from apps.common.cache import invalidate_catalog_cache
+
+        prev_status = self.status
+        self.status = 'published'
+        self.published_at = timezone.now()
+        self.content_version += 1
+        self.save()
+
+        # Invalidate catalog cache so clients see fresh content immediately
+        invalidate_catalog_cache()
+        self._record_audit(user, 'status_change', {
+            "from": prev_status,
+            "to": "published",
+            "version": self.content_version
+        })
+
+    def archive(self, user=None):
+        """BJ-101: Transition to archived."""
+        from apps.common.cache import invalidate_catalog_cache
+
+        prev_status = self.status
+        self.status = 'archived'
+        self.save()
+        invalidate_catalog_cache()
+        self._record_audit(user, 'status_change', {"from": prev_status, "to": "archived"})
+
+    def bump_version(self, user=None, reason=""):
+        """BJ-103: Increment content version and invalidate cache."""
+        from apps.common.cache import invalidate_catalog_cache
+
+        self.content_version += 1
+        self.save()
+        invalidate_catalog_cache()
+        self._record_audit(user, 'version_bump', {"new_version": self.content_version, "reason": reason})
+
+    def _record_audit(self, user, action, details):
+        """Internal helper to log ContentAuditEvent without circular import."""
+        try:
+            from apps.game_content.models import ContentAuditEvent
+            ContentAuditEvent.objects.create(
+                game=self,
+                user=user if user and user.is_authenticated else None,
+                action=action,
+                details=details
+            )
+        except Exception:
+            pass

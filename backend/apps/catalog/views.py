@@ -1,16 +1,35 @@
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.response import Response
 from django.db.models import Q
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from .models import GameCategory, Game
 from .serializers import GameCategorySerializer, GameListSerializer, GameDetailSerializer
+from apps.common.cache import safe_cache_get, safe_cache_set, get_cache_version
 
 
 class CategoryListView(generics.ListAPIView):
-    """List all active game categories."""
+    """
+    List all active game categories.
+    Cached with versioned keys; automatically falls back if Redis is offline (BJ-128).
+    """
     permission_classes = [AllowAny]
     serializer_class = GameCategorySerializer
     pagination_class = None
+
+    def list(self, request, *args, **kwargs):
+        version = get_cache_version('catalog')
+        cache_key = f"bolajon:v{version}:categories:active"
+        cached_data = safe_cache_get(cache_key)
+
+        if cached_data is not None:
+            return Response(cached_data)
+
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data
+        safe_cache_set(cache_key, data, timeout=600)
+        return Response(data)
 
     def get_queryset(self):
         return GameCategory.objects.filter(is_active=True).order_by('sort_order', 'title')
@@ -71,3 +90,17 @@ class GameDetailView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Game.objects.filter(status='published').select_related('category')
+
+
+class GamePreviewView(generics.RetrieveAPIView):
+    """
+    BJ-103: Authoring preview endpoint for unpublished games (draft, review, archived).
+    Restricted to staff content editors. Allows previewing content version prior to publication.
+    """
+    permission_classes = [IsAdminUser]
+    serializer_class = GameDetailSerializer
+    lookup_field = 'slug'
+
+    def get_queryset(self):
+        # Admins can preview any game regardless of publication status
+        return Game.objects.all().select_related('category')
