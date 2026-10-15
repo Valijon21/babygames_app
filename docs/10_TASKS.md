@@ -52,7 +52,7 @@ Har task uchun: ID, maqsad, dependency, acceptance criteria, test va deliverable
 - [x] `BJ-045` Reset confirmation.
 - [x] `BJ-046` PNG export.
 - [x] `BJ-047` Touch/mouse/keyboard accessibility.
-- [ ] `BJ-048` 5 ta litsenziyasi tasdiqlangan demo rasm to‘plami.
+- [x] `BJ-048` 5 ta litsenziyasi tasdiqlangan demo rasm to‘plami.
 - [x] `BJ-049` Coloring unit + E2E tests.
 **AC:** asosiy bo‘yash jarayoni 360px mobil va desktopda ishlaydi; rasm assetlarida region IDlar unique.
 
@@ -89,7 +89,7 @@ Har task uchun: ID, maqsad, dependency, acceptance criteria, test va deliverable
 - [x] `BJ-082` Server-side payload validation.
 - [x] `BJ-083` ProgressRecord upsert va constraints.
 - [x] `BJ-084` Results screen va replay.
-- [ ] `BJ-085` Progress dashboard aggregate endpoint.
+- [x] `BJ-085` Progress dashboard aggregate endpoint.
 **AC:** takroriy complete requestlar progressni noto‘g‘ri ko‘paytirmaydi; ownership tekshiriladi.
 
 ## EPIC E09 — Parent accounts & child profiles
@@ -98,26 +98,26 @@ Har task uchun: ID, maqsad, dependency, acceptance criteria, test va deliverable
 - [x] `BJ-092` ChildProfile CRUD.
 - [x] `BJ-093` Object-level permissions.
 - [x] `BJ-094` Parent dashboard.
-- [ ] `BJ-095` Profilni eksport/o‘chirish siyosati va test.
+- [x] `BJ-095` Profilni eksport/o‘chirish siyosati va test.
 **AC:** boshqa account bola profiliga kira olmaydi; ma’lumot o‘chirish jarayoni hujjatlashtirilgan.
 
 ## EPIC E10 — Content admin
 - [x] `BJ-100` Django Admin category/game konfiguratsiyasi.
-- [ ] `BJ-101` Draft/review/published workflow.
-- [ ] `BJ-102` Asset upload size/type validation.
-- [ ] `BJ-103` Preview va content version.
-- [ ] `BJ-104` Audit eventlar.
+- [x] `BJ-101` Draft/review/published workflow.
+- [x] `BJ-102` Asset upload size/type validation.
+- [x] `BJ-103` Preview va content version.
+- [x] `BJ-104` Audit eventlar.
 **AC:** draft noto‘g‘ri tasodifan nashr bo‘lmaydi; upload testlari o‘tadi.
 
 ## EPIC E11 — Security, accessibility & release
 - [x] `BJ-110` Security checklist va dependency audit.
 - [x] `BJ-111` WCAG asosiy tekshiruvlar.
-- [ ] `BJ-112` Performance budget va Lighthouse baseline.
-- [ ] `BJ-113` Production settings, HTTPS, CORS/CSRF.
-- [ ] `BJ-114` Backup/restore runbook.
+- [x] `BJ-112` Performance budget va Lighthouse baseline.
+- [x] `BJ-113` Production settings, HTTPS, CORS/CSRF.
+- [x] `BJ-114` Backup/restore runbook.
 - [x] `BJ-115` E2E smoke tests.
-- [ ] `BJ-116` Pilot feedback va bug triage.
-- [ ] `BJ-117` Release checklist va rollback plan.
+- [x] `BJ-116` Pilot feedback va bug triage.
+- [x] `BJ-117` Release checklist va rollback plan.
 **AC:** critical/high buglar yopilgan; deploy/rollback qadamlari hujjatlangan.
 
 ## EPIC E12 — Scalability & reliability baseline
@@ -126,11 +126,12 @@ Har task uchun: ID, maqsad, dependency, acceptance criteria, test va deliverable
 - [x] `BJ-122` API pagination, max page size va response-size limits. **AC:** katta query cheksiz response qaytarmaydi.
 - [x] `BJ-123` Katalog query profiling, kerakli indekslar va N+1 test/review. **AC:** query plan va benchmark qayd etilgan.
 - [x] `BJ-124` Structured logging, request ID va safe error reporting. **AC:** token va child PII loglarda yo‘q.
-- [ ] `BJ-125` Liveness/readiness health checks va deployment runbook. **AC:** readiness dependency muammosida trafik qabul qilmaydi.
+- [x] `BJ-125` Liveness/readiness health checks va deployment runbook. **AC:** readiness dependency muammosida trafik qabul qilmaydi.
 - [x] `BJ-126` Rate limit, upload/payload limit va overload response. **AC:** endpointlar stress testda cheksiz resurs ishlatmaydi.
-- [ ] `BJ-127` Object storage/CDN integration decision va cache policy. **AC:** production assetlar app instance local diskiga bog‘liq emas.
-- [ ] `BJ-128` Cache key/version invalidation va Redis unavailable fallback. **AC:** stale content siyosati testlangan.
-- [ ] `BJ-129` Load/soak test scenariylari va baseline dashboard. **AC:** test report latency, error, CPU/RAM, DB va cache metrikalarini ko‘rsatadi.
-- [ ] `BJ-130` Backup restore drill va rollback runbook. **AC:** restore va rollback qadamlar amalda sinovdan o‘tgan.
-- [ ] `BJ-131` Queue/worker faqat real background workload talabiga ko‘ra ADR bilan qo‘shilsin. **AC:** retry, idempotency va failed-job monitoring mavjud.
+- [x] `BJ-127` Object storage/CDN integration decision va cache policy. **AC:** production assetlar app instance local diskiga bog‘liq emas.
+- [x] `BJ-128` Cache key/version invalidation va Redis unavailable fallback. **AC:** stale content siyosati testlangan.
+- [x] `BJ-129` Load/soak test scenariylari va baseline dashboard. **AC:** test report latency, error, CPU/RAM, DB va cache metrikalarini ko‘rsatadi.
+- [x] `BJ-130` Backup restore drill va rollback runbook. **AC:** restore va rollback qadamlar amalda sinovdan o‘tgan.
+- [x] `BJ-131` Queue/worker faqat real background workload talabiga ko‘ra ADR bilan qo‘shilsin. **AC:** retry, idempotency va failed-job monitoring mavjud.
 **AC umumiy:** yangi o‘yin qo‘shish boshqa o‘yinlarni regressiya qildirmaydi; scalability/reliability qarorlari taxmin emas, test va metrikalar bilan tekshiriladi.
+
