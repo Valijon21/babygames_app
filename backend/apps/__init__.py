@@ -1,0 +1,1 @@
+# Bolajon backend applications namespace
