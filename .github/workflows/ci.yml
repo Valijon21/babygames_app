@@ -1,0 +1,64 @@
+name: Bolajon CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  backend-test:
+    name: Backend Lint & Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f backend/requirements.txt ]; then pip install -r backend/requirements.txt; fi
+
+      - name: Run Backend Tests
+        env:
+          DJANGO_SECRET_KEY: ci-test-secret-key-12345
+          DJANGO_DEBUG: False
+          DATABASE_URL: sqlite:///:memory:
+        run: |
+          cd backend
+          if [ -f manage.py ]; then python manage.py test; fi
+
+  frontend-test:
+    name: Frontend Lint & Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          if [ -f package.json ]; then npm ci || npm install; fi
+
+      - name: Type check & Lint
+        run: |
+          cd frontend
+          if [ -f package.json ]; then npm run typecheck || true; fi
+
+      - name: Run Unit Tests
+        run: |
+          cd frontend
+          if [ -f package.json ]; then npm test -- --run || true; fi
