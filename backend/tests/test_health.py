@@ -11,3 +11,5 @@ class HealthCheckTests(TestCase):
         self.assertEqual(response.json()['status'], 'healthy')
         self.assertEqual(response.json()['database'], 'ok')
         self.assertEqual(response.json()['service'], 'bolajon-api')
+        self.assertIn('X-Request-ID', response.headers)
+        self.assertTrue(len(response.headers['X-Request-ID']) > 10)
