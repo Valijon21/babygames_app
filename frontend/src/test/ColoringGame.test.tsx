@@ -8,7 +8,10 @@ describe('ColoringGame Component', () => {
     const handleComplete = vi.fn();
     render(<ColoringGame onBack={handleBack} onComplete={handleComplete} />);
 
-    expect(screen.getByText('🎨 Quvnoq Mushukcha')).toBeInTheDocument();
+    expect(screen.getByText('🎨 Rasm Bo‘yash')).toBeInTheDocument();
+    expect(screen.getByText('Mushukcha')).toBeInTheDocument();
+    expect(screen.getByText('Quyoncha')).toBeInTheDocument();
+    expect(screen.getByText('Baliqcha')).toBeInTheDocument();
     expect(screen.getByText('Orqaga')).toBeInTheDocument();
   });
 
